@@ -42,7 +42,6 @@ public:
 		std::cout << "List of available commands (case sensitive): " << std::endl;
 		std::cout << "time: for getting current time" << std::endl;
 		std::cout << "greet: for greeting" << std::endl;
-		std::cout << "time: for getting current time" << std::endl;
 		std::cout << "yell: for YELLING SOMETHING LOUD" << std::endl;
 		std::cout << "reverse: for reversing your message" << std::endl;
 		std::cout << "exit: to stop this application" << std::endl;

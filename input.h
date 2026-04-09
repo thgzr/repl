@@ -15,7 +15,7 @@ std::string askForInput() {
 }
 
 void parseInput(std::string& input, std::string& command, std::string& argument) {
-	int index = 0;
+	size_t index = 0;
 	bool seen_whitespace = false;
 	input.erase(0, input.find_first_not_of(" \t\n\r\f\v"));									// trim leading whitespaces.
 
