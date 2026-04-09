@@ -7,16 +7,6 @@
 #include <algorithm>
 #include <utility>
 
-enum class CommandEnum {
-	Exit = 0,
-	Help,
-	Time,
-	Greet,
-	YellSomething,
-	ReverseString,
-	Unknown
-};
-
 class Command {
 public:
 	virtual void execute() = 0;

@@ -28,24 +28,13 @@ void parseInput(std::string& input, std::string& command, std::string& argument)
 	argument.erase(0, argument.find_first_not_of(" \t\n\r\f\v"));							// same here.
 }
 
-CommandEnum commandToEnum(std::string command) {
-	if (command == "exit")		return CommandEnum::Exit;
-	if (command == "help")		return CommandEnum::Help;
-	if (command == "time")		return CommandEnum::Time;
-	if (command == "greet")		return CommandEnum::Greet;
-	if (command == "yell")		return CommandEnum::YellSomething;
-	if (command == "reverse")	return CommandEnum::ReverseString;
-	return CommandEnum::Unknown;
+std::unique_ptr<Command> commandToPtr(std::string command, std::string argument) {
+	if (command == "exit")		return std::make_unique<Exit>();
+	if (command == "help")		return std::make_unique<Help>();
+	if (command == "time")		return std::make_unique<Time>();
+	if (command == "greet")		return std::make_unique<Greet>(argument);
+	if (command == "yell")		return std::make_unique<YellSomething>(argument);
+	if (command == "reverse")	return std::make_unique<ReverseString>(argument);
+	return std::make_unique<UnknownCommand>(command);
 }
 
-std::unique_ptr<Command> commandToPtr(std::string command, std::string argument) {
-	switch (commandToEnum(command)) {
-	case CommandEnum::Exit:				return std::make_unique<Exit>();
-	case CommandEnum::Help:				return std::make_unique<Help>();
-	case CommandEnum::Time:				return std::make_unique<Time>();
-	case CommandEnum::Greet:			return std::make_unique<Greet>(argument);
-	case CommandEnum::YellSomething:	return std::make_unique<YellSomething>(argument);
-	case CommandEnum::ReverseString:	return std::make_unique<ReverseString>(argument);
-	default:							return std::make_unique<UnknownCommand>(command);
-	}
-}

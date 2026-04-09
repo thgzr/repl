@@ -1,6 +1,5 @@
 #include <iostream>
 
-#include "command.h"
 #include "input.h"
 
 int main()
