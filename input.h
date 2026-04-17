@@ -7,7 +7,6 @@
 #include "command.h"
 
 std::string askForInput() {
-	std::cout << "Waiting for command (type 'help' for command list)" << std::endl;
 	std::cout << ">>";
 	std::string input;
 	std::getline(std::cin, input);
@@ -35,6 +34,7 @@ std::unique_ptr<Command> commandToPtr(std::string command, std::string argument)
 	if (command == "greet")		return std::make_unique<Greet>(argument);
 	if (command == "yell")		return std::make_unique<YellSomething>(argument);
 	if (command == "reverse")	return std::make_unique<ReverseString>(argument);
+	if (command == "eval")		return std::make_unique<Computator>(argument);
 	return std::make_unique<UnknownCommand>(command);
 }
 

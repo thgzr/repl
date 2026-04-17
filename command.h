@@ -7,6 +7,8 @@
 #include <algorithm>
 #include <utility>
 
+#include "tokenizer.h"
+
 class Command {
 public:
 	virtual void execute() = 0;
@@ -29,12 +31,15 @@ private:
 class Help : public Command {
 public:
 	void execute() {
+		std::cout << "---------------------------------------------" << std::endl;
 		std::cout << "List of available commands (case sensitive): " << std::endl;
+		std::cout << "eval: math expression. currently accepts only numbers, (), and +, -, /, *: expression example (2 + 2) * 10 / 5" << std::endl;
 		std::cout << "time: for getting current time" << std::endl;
 		std::cout << "greet: for greeting" << std::endl;
 		std::cout << "yell: for YELLING SOMETHING LOUD" << std::endl;
 		std::cout << "reverse: for reversing your message" << std::endl;
 		std::cout << "exit: to stop this application" << std::endl;
+		std::cout << "---------------------------------------------" << std::endl;
 	}
 };
 
@@ -69,7 +74,7 @@ class UnknownCommand : public Command {
 public:
 	UnknownCommand(std::string command) : command_(command) {};
 	void execute() override {
-		std::cout << command_ << " is unknown command" << std::endl;
+		if (command_.size() > 0) std::cout << command_ << " is unknown command" << std::endl;
 	}
 private:
 	std::string command_;
@@ -79,8 +84,11 @@ class YellSomething : public Command {
 public :
 	YellSomething(std::string string_to_yell) : string_to_yell_(string_to_yell) {}
 	void execute() override {
-		for (char& c : string_to_yell_) c = std::toupper(c);
-		std::cout << string_to_yell_ << std::endl;
+		if (string_to_yell_.size() > 0) {
+			for (char& c : string_to_yell_) c = std::toupper(c);
+			std::cout << string_to_yell_ << std::endl;
+		}
+		else std::cout << "please provide argument to yell" << std::endl;
 	}
 private:
 	std::string string_to_yell_;
@@ -90,11 +98,34 @@ class ReverseString : public Command {
 public:
 	ReverseString(std::string string_to_reverse) : string_to_reverse_(string_to_reverse) {}
 	void execute() override {		
-		std::reverse(string_to_reverse_.begin(), string_to_reverse_.end());
-		std::cout << string_to_reverse_ << std::endl;
+		if (string_to_reverse_.size() > 0) {
+			std::reverse(string_to_reverse_.begin(), string_to_reverse_.end());
+			std::cout << string_to_reverse_ << std::endl;
+		}
+		else std::cout << "please provide argument to reverse" << std::endl;
 	}
 private:
 	std::string string_to_reverse_;
 };
 
+class Computator : public Command {
+public:
+	Computator(std::string string_to_compute) : string_to_compute_(string_to_compute) {
+		iterator_ = 0;
+	}
+	void execute() override;
 
+private:
+	Token getCurrentToken();
+	void consumeToken();
+
+	int expression();
+	int term();
+	int factor();
+
+	bool rangeCheck(int operand1, int operand2);
+
+	std::string string_to_compute_;
+	std::vector<Token> token_vec_;
+	size_t iterator_;
+};
