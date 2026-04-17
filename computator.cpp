@@ -1,8 +1,7 @@
-#pragma once
-
 #include <iostream>
 #include <stdexcept>
 #include <cmath>
+#include <climits>
 
 #include "command.h"
 #include "tokenizer.h"
