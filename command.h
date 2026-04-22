@@ -119,11 +119,11 @@ private:
 	Token getCurrentToken();
 	void consumeToken();
 
-	int expression();
-	int term();
-	int factor();
+	long long expression();
+	long long term();
+	long long factor();
 
-	bool rangeCheck(int operand1, int operand2);
+	bool rangeCheck(long long operand1, long long operand2);
 
 	std::string string_to_compute_;
 	std::vector<Token> token_vec_;

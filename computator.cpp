@@ -14,20 +14,21 @@ void Computator::consumeToken() {
 	iterator_++;
 }
 
-bool Computator::rangeCheck(int operand1, int operand2) {
-	int operand1_by_modulus = std::abs(operand1);
-	int operand2_by_modulus = std::abs(operand2);
+bool Computator::rangeCheck(long long operand1, long long operand2) {
+	long long operand1_by_modulus = std::abs(operand1);
+	long long operand2_by_modulus = std::abs(operand2);
 
+	if (operand1_by_modulus == 0 || operand2_by_modulus == 0) return true;
 	if (operand1_by_modulus > INT_MAX / operand2_by_modulus) return false;
 	else return true;
 }
 
-int Computator::expression() {
-	int value = term();
+long long Computator::expression() {
+	long long value = term();
 	Token t = getCurrentToken();
 	while (t.type == TokenType::MINUS || t.type == TokenType::PLUS) {
 		consumeToken();
-		int rhs = term();
+		long long rhs = term();
 		if (t.type == TokenType::MINUS) {
 			if (value - rhs >= INT_MIN) value -= rhs;
 			else throw std::runtime_error("Error: during substraction value went out of negative integer range");
@@ -41,12 +42,12 @@ int Computator::expression() {
 	return value;
 }
 
-int Computator::term() {
-	int value = factor();
+long long Computator::term() {
+	long long value = factor();
 	Token t = getCurrentToken();
 	while (t.type == TokenType::DIVIDE || t.type == TokenType::MULTIPLY) {
 		consumeToken();
-		int rhs = factor();
+		long long rhs = factor();
 		if (t.type == TokenType::DIVIDE) {
 			if (rhs == 0) throw std::runtime_error("Error: division by 0!");
 			else 
@@ -62,11 +63,11 @@ int Computator::term() {
 	return value;
 }
 
-int Computator::factor() {
+long long Computator::factor() {
 	Token t = getCurrentToken();
 	if (t.type == TokenType::LPAREN) {
 		consumeToken();
-		int value = expression();
+		long long value = expression();
 		t = getCurrentToken();
 		if (t.type == TokenType::RPAREN) {
 			consumeToken();
@@ -92,7 +93,7 @@ int Computator::factor() {
 
 void Computator::execute() {
 	stringToTokens(string_to_compute_, token_vec_);
-	int result = expression();
+	long long result = expression();
 	Token t = getCurrentToken();
 	if (t.type != TokenType::END) throw std::runtime_error("Input error");
 	else std::cout << result << std::endl;

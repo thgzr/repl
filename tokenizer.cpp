@@ -29,10 +29,10 @@ void stringToTokens(std::string str, std::vector<Token>& t) {
 			try {
 				t.push_back(constructToken(TokenType::NUMBER, std::stoll(tmp)));
 			}
-			catch (const std::out_of_range& e) {
+			catch (const std::out_of_range&) {
 				throw std::runtime_error("Provided number is out of range");
 			}
-			catch (const std::invalid_argument& e) {
+			catch (const std::invalid_argument&) {
 				throw std::runtime_error("Unable to convert string into integer");
 			}
 			tmp = "";
